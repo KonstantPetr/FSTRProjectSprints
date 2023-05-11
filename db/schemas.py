@@ -1,4 +1,4 @@
-from pydantic import BaseModel, validator, root_validator
+from pydantic import BaseModel
 
 
 class Users(BaseModel):
@@ -22,6 +22,11 @@ class Levels(BaseModel):
     spring: str = None
 
 
+class Images(BaseModel):
+    title: str
+    image: bytes  # на этапе фронта надо будет делать форму и в main использовать File из FastAPI
+
+
 class PerevalAdded(BaseModel):
     created_by: list[Users]
     coord_id: list[Coords]
@@ -30,11 +35,7 @@ class PerevalAdded(BaseModel):
     title: str
     other_titles: str = None
     connect: str = None
-
-
-class Images(BaseModel):
-    title: str
-    image: bytearray
+    image_id: list[Images]
 
 
 class PerevalImage(BaseModel):

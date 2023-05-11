@@ -1,6 +1,6 @@
 from sqlalchemy import Column, ForeignKey, Integer, Float, String, Text, LargeBinary, DateTime
 
-from database import engine, Base
+from db.database import engine, Base
 
 from datetime import datetime
 
@@ -142,5 +142,5 @@ class SprActivitiesTypes(Base):
 
 if __name__ == '__main__':
 
-    Base.metadata.drop_all(engine)
+    # Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
