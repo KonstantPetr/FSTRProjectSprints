@@ -87,3 +87,14 @@ def patch_single_pereval(item, item_id):
             return 'ok'
     else:
         return 'invalid_id'
+
+
+def get_pereval_by_email(email):
+    try:
+        perevals = db.query(PerevalAdded).filter(PerevalAdded.created_by.email == email).all()
+    except DatabaseError:
+        return 'db_error'
+    except InvalidRequestError:
+        return 'invalid_email'
+    else:
+        return perevals

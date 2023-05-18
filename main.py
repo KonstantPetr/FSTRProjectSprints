@@ -2,7 +2,7 @@ from fastapi import FastAPI, Response, Query
 from pydantic import ValidationError
 
 from db.schemas import PerevalAdded
-from middleware import pereval_to_db, get_single_pereval, patch_single_pereval
+from middleware import pereval_to_db, get_single_pereval, patch_single_pereval, get_pereval_by_email
 
 app = FastAPI()
 
@@ -64,4 +64,13 @@ def patch_item(item: PerevalAdded, item_id: int, response: Response):
 
 @app.get('/submitData/?user__email={email}')
 def get_items_by_email(email: str, response: Response):
-    ...
+    perevals = get_pereval_by_email(email)
+    if perevals == 'db_error':
+        response.status_code = 500
+        return {'message': 'Нет соединения с базой данных'}
+    elif perevals == 'invalid_id':
+        response.status_code = 404
+        return {'message': 'В базе данных нет такой записи', 'email': email}
+    else:
+        response.status_code = 200
+        return perevals
