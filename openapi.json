@@ -1,0 +1,468 @@
+{
+	"openapi": "3.0.2",
+	"info":
+	{
+		"title": "FastAPI",
+		"version": "0.1.0"
+	},
+	"paths":
+	{
+		"/":
+		{
+			"get":
+			{
+				"summary": "Index",
+				"operationId": "index__get",
+				"responses":
+				{
+					"200":
+					{
+						"description": "Successful Response",
+						"content":
+						{
+							"application/json":
+							{
+								"schema":
+								{}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/submitData":
+		{
+			"post":
+			{
+				"summary": "Submit Data",
+				"operationId": "submit_data_submitData_post",
+				"requestBody":
+				{
+					"content":
+					{
+						"application/json":
+						{
+							"schema":
+							{
+								"$ref": "#/components/schemas/PerevalAdded"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses":
+				{
+					"200":
+					{
+						"description": "Successful Response",
+						"content":
+						{
+							"application/json":
+							{
+								"schema":
+								{}
+							}
+						}
+					},
+					"422":
+					{
+						"description": "Validation Error",
+						"content":
+						{
+							"application/json":
+							{
+								"schema":
+								{
+									"$ref": "#/components/schemas/HTTPValidationError"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/submitData/{item_id}":
+		{
+			"get":
+			{
+				"summary": "Get Item",
+				"operationId": "get_item_submitData__item_id__get",
+				"parameters": [
+				{
+					"required": true,
+					"schema":
+					{
+						"title": "Item Id",
+						"type": "integer"
+					},
+					"name": "item_id",
+					"in": "path"
+				}],
+				"responses":
+				{
+					"200":
+					{
+						"description": "Successful Response",
+						"content":
+						{
+							"application/json":
+							{
+								"schema":
+								{}
+							}
+						}
+					},
+					"422":
+					{
+						"description": "Validation Error",
+						"content":
+						{
+							"application/json":
+							{
+								"schema":
+								{
+									"$ref": "#/components/schemas/HTTPValidationError"
+								}
+							}
+						}
+					}
+				}
+			},
+			"patch":
+			{
+				"summary": "Patch Item",
+				"operationId": "patch_item_submitData__item_id__patch",
+				"parameters": [
+				{
+					"required": true,
+					"schema":
+					{
+						"title": "Item Id",
+						"type": "integer"
+					},
+					"name": "item_id",
+					"in": "path"
+				}],
+				"requestBody":
+				{
+					"content":
+					{
+						"application/json":
+						{
+							"schema":
+							{
+								"$ref": "#/components/schemas/PerevalAdded"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses":
+				{
+					"200":
+					{
+						"description": "Successful Response",
+						"content":
+						{
+							"application/json":
+							{
+								"schema":
+								{}
+							}
+						}
+					},
+					"422":
+					{
+						"description": "Validation Error",
+						"content":
+						{
+							"application/json":
+							{
+								"schema":
+								{
+									"$ref": "#/components/schemas/HTTPValidationError"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/submitData/?user__email={email}":
+		{
+			"get":
+			{
+				"summary": "Get Items By Email",
+				"operationId": "get_items_by_email_submitData__user__email__email__get",
+				"parameters": [
+				{
+					"required": true,
+					"schema":
+					{
+						"title": "Email",
+						"type": "string"
+					},
+					"name": "email",
+					"in": "path"
+				}],
+				"responses":
+				{
+					"200":
+					{
+						"description": "Successful Response",
+						"content":
+						{
+							"application/json":
+							{
+								"schema":
+								{}
+							}
+						}
+					},
+					"422":
+					{
+						"description": "Validation Error",
+						"content":
+						{
+							"application/json":
+							{
+								"schema":
+								{
+									"$ref": "#/components/schemas/HTTPValidationError"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"components":
+	{
+		"schemas":
+		{
+			"Coords":
+			{
+				"title": "Coords",
+				"required": ["latitude", "longitude", "height"],
+				"type": "object",
+				"properties":
+				{
+					"latitude":
+					{
+						"title": "Latitude",
+						"type": "number"
+					},
+					"longitude":
+					{
+						"title": "Longitude",
+						"type": "number"
+					},
+					"height":
+					{
+						"title": "Height",
+						"type": "integer"
+					}
+				}
+			},
+			"HTTPValidationError":
+			{
+				"title": "HTTPValidationError",
+				"type": "object",
+				"properties":
+				{
+					"detail":
+					{
+						"title": "Detail",
+						"type": "array",
+						"items":
+						{
+							"$ref": "#/components/schemas/ValidationError"
+						}
+					}
+				}
+			},
+			"Images":
+			{
+				"title": "Images",
+				"required": ["title", "image"],
+				"type": "object",
+				"properties":
+				{
+					"title":
+					{
+						"title": "Title",
+						"type": "string"
+					},
+					"image":
+					{
+						"title": "Image",
+						"type": "string",
+						"format": "binary"
+					}
+				}
+			},
+			"Levels":
+			{
+				"title": "Levels",
+				"type": "object",
+				"properties":
+				{
+					"winter":
+					{
+						"title": "Winter",
+						"type": "string"
+					},
+					"summer":
+					{
+						"title": "Summer",
+						"type": "string"
+					},
+					"autumn":
+					{
+						"title": "Autumn",
+						"type": "string"
+					},
+					"spring":
+					{
+						"title": "Spring",
+						"type": "string"
+					}
+				}
+			},
+			"PerevalAdded":
+			{
+				"title": "PerevalAdded",
+				"required": ["created_by", "coord_id", "levels_id", "beauty_title", "title", "image_id"],
+				"type": "object",
+				"properties":
+				{
+					"created_by":
+					{
+						"title": "Created By",
+						"type": "array",
+						"items":
+						{
+							"$ref": "#/components/schemas/Users"
+						}
+					},
+					"coord_id":
+					{
+						"title": "Coord Id",
+						"type": "array",
+						"items":
+						{
+							"$ref": "#/components/schemas/Coords"
+						}
+					},
+					"levels_id":
+					{
+						"title": "Levels Id",
+						"type": "array",
+						"items":
+						{
+							"$ref": "#/components/schemas/Levels"
+						}
+					},
+					"beauty_title":
+					{
+						"title": "Beauty Title",
+						"type": "string"
+					},
+					"title":
+					{
+						"title": "Title",
+						"type": "string"
+					},
+					"other_titles":
+					{
+						"title": "Other Titles",
+						"type": "string"
+					},
+					"connect":
+					{
+						"title": "Connect",
+						"type": "string"
+					},
+					"image_id":
+					{
+						"title": "Image Id",
+						"type": "array",
+						"items":
+						{
+							"$ref": "#/components/schemas/Images"
+						}
+					}
+				}
+			},
+			"Users":
+			{
+				"title": "Users",
+				"required": ["email", "phone", "fam", "name", "otc"],
+				"type": "object",
+				"properties":
+				{
+					"email":
+					{
+						"title": "Email",
+						"type": "string"
+					},
+					"phone":
+					{
+						"title": "Phone",
+						"type": "integer"
+					},
+					"fam":
+					{
+						"title": "Fam",
+						"type": "string"
+					},
+					"name":
+					{
+						"title": "Name",
+						"type": "string"
+					},
+					"otc":
+					{
+						"title": "Otc",
+						"type": "string"
+					}
+				}
+			},
+			"ValidationError":
+			{
+				"title": "ValidationError",
+				"required": ["loc", "msg", "type"],
+				"type": "object",
+				"properties":
+				{
+					"loc":
+					{
+						"title": "Location",
+						"type": "array",
+						"items":
+						{
+							"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"type": "integer"
+							}]
+						}
+					},
+					"msg":
+					{
+						"title": "Message",
+						"type": "string"
+					},
+					"type":
+					{
+						"title": "Error Type",
+						"type": "string"
+					}
+				}
+			}
+		}
+	}
+}
