@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Response, Query
 from pydantic import ValidationError
 
+from db.database import SessionLocal as db
 from db.schemas import PerevalAdded
 from middleware import pereval_to_db, get_single_pereval, patch_single_pereval, get_pereval_by_email
 
@@ -16,7 +17,7 @@ def index():
 def submit_data(item: PerevalAdded, response: Response):
     pereval = PerevalAdded.parse_raw(item)
     try:
-        pereval_id = pereval_to_db(pereval)
+        pereval_id = pereval_to_db(pereval, db)
     except ValidationError:
         response.status_code = 400
         return {'message': 'Не все поля заполнены правильно', 'id': 'null'}
@@ -31,7 +32,7 @@ def submit_data(item: PerevalAdded, response: Response):
 
 @app.get('/submitData/{item_id}')
 def get_item(item_id: int, response: Response):
-    pereval = get_single_pereval(item_id)
+    pereval = get_single_pereval(item_id, db)
     if pereval == 'db_error':
         response.status_code = 500
         return {'message': 'Нет соединения с базой данных', 'id': 'null'}
@@ -51,7 +52,7 @@ def patch_item(item: PerevalAdded, item_id: int, response: Response):
              'not_new': [0, 'Статус записи не "новая"'],
              'ok': [1, 'Запись успешно отредактирована']}
     try:
-        patching = patch_single_pereval(pereval, item_id)
+        patching = patch_single_pereval(pereval, item_id, db)
     except ValidationError:
         response.status_code = 0
         return {'message': 'Не все поля заполнены правильно'}
@@ -64,7 +65,7 @@ def patch_item(item: PerevalAdded, item_id: int, response: Response):
 
 @app.get('/submitData/?user__email={email}')
 def get_items_by_email(email: str, response: Response):
-    perevals = get_pereval_by_email(email)
+    perevals = get_pereval_by_email(email, db)
     if perevals == 'db_error':
         response.status_code = 500
         return {'message': 'Нет соединения с базой данных'}

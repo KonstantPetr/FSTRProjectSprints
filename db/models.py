@@ -1,6 +1,7 @@
 from sqlalchemy import Column, ForeignKey, Integer, Float, String, Text, LargeBinary, DateTime
 
 from db.database import engine, Base
+from db.test_db import engine as test_engine, Base as test_base
 
 from datetime import datetime
 
@@ -144,3 +145,4 @@ if __name__ == '__main__':
 
     # Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
+    test_base.metadata.create_all(test_engine)

@@ -1,6 +1,6 @@
 from sqlalchemy.exc import DatabaseError, InvalidRequestError
 
-from db.database import SessionLocal as db
+# from db.database import SessionLocal as db
 from db.models import Users, Coords, Levels, Images, PerevalAdded, PerevalImage
 
 
@@ -37,7 +37,7 @@ def identify_parameters(item):
     return [pereval, user, coords, levels, images]
 
 
-def pereval_to_db(item):
+def pereval_to_db(item, db):
     item_parameters = identify_parameters(item)
     try:
         for parameter in item_parameters:
@@ -49,7 +49,7 @@ def pereval_to_db(item):
         return item_parameters[0]
 
 
-def get_single_pereval(item_id):
+def get_single_pereval(item_id, db):
     try:
         pereval = db.query(PerevalAdded).filter(PerevalAdded.id == item_id).all()
     except DatabaseError:
@@ -60,7 +60,7 @@ def get_single_pereval(item_id):
         return pereval
 
 
-def patch_single_pereval(item, item_id):
+def patch_single_pereval(item, item_id, db):
     item_parameters = identify_parameters(item)
     pereval = db.find_by_id(item_id)
     if item:
@@ -89,7 +89,7 @@ def patch_single_pereval(item, item_id):
         return 'invalid_id'
 
 
-def get_pereval_by_email(email):
+def get_pereval_by_email(email, db):
     try:
         perevals = db.query(PerevalAdded).filter(PerevalAdded.created_by.email == email).all()
     except DatabaseError:
